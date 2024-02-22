@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public enum eSpeed { slow, normel, fast }
+public enum ePrayer { shachrith =1 , mincha , arvith }
+//public enum eSpeed { slow =1, normel, fast }
+
 
 
 namespace MinyanApp.Core.Entities
@@ -14,18 +16,21 @@ namespace MinyanApp.Core.Entities
     {
         public int Id { get; set; }
 
-        public Synagogue Synagogue { get; set; }
+        public ePrayer Prayer { get; set; }
 
-        public Location Loction { get; set; }
+        public Synagogue? Synagogue { get; set; }
 
-        public eNusach Nusach { get; set; }
+        public Location? Loction { get; set; }
 
-        public TimeSpan Time { get; set; }
+        public eNusach? Nusach { get; set; }
 
         public bool IsFixed { get; set; }
 
-        public eSpeed Speed { get; set; }
+        public DateTime? DateTime { get; set; }
 
+
+
+        //public eSpeed Speed { get; set; }
         //public List<User> Users { get; set; }
     }
 }

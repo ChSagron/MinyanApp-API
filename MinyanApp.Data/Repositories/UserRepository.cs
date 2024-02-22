@@ -1,4 +1,5 @@
-﻿using MinyanApp.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MinyanApp.Core.Entities;
 using MinyanApp.Core.Repositories;
 using System;
 using System.Collections.Generic;
@@ -17,16 +18,24 @@ namespace MinyanApp.Data.Repositories
             _context = context;
         }
 
-        public List<User> GetAll()
+        public IEnumerable<User> GetAll()
         {
-            return _context.Users.ToList();
+            return _context.Users;
         }
 
-        public User AddUser(User user)
+        public User AddItem(User user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();
             return user;
         }
+        public User FindUser(string nickname)
+        { 
+        //{.ThenInclude(s => s.Location).Include(u => u.Synagogue).ThenInclude(s => s.Minyans).Include(u => u.Synagogue).ThenInclude(s => s.Users)
+            return _context.Users.Include(u => u.Synagogue).ThenInclude(s => s.Location).Include(u => u.Synagogue).ThenInclude(s => s.Minyans).Include(u => u.Synagogue).ThenInclude(s => s.Users).FirstOrDefault<User>(u => u.Nickname == nickname);
+        }
+
+
+
     }
 }

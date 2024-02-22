@@ -12,8 +12,8 @@ using MinyanApp.Data;
 namespace MinyanApp.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240124221918_create2")]
-    partial class create2
+    [Migration("20240206101321_createDB")]
+    partial class createDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,6 +31,12 @@ namespace MinyanApp.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<float?>("Accuracy")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("DateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<float>("Latitude")
                         .HasColumnType("real");
@@ -51,23 +57,23 @@ namespace MinyanApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime?>("DataTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsFixed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LoctionId")
+                    b.Property<int?>("LoctionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Nusach")
+                    b.Property<int?>("Nusach")
                         .HasColumnType("int");
 
-                    b.Property<int>("Speed")
+                    b.Property<int>("Prayer")
                         .HasColumnType("int");
 
-                    b.Property<int>("SynagogueId")
+                    b.Property<int?>("SynagogueId")
                         .HasColumnType("int");
-
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
@@ -115,7 +121,6 @@ namespace MinyanApp.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Avatar")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -133,20 +138,23 @@ namespace MinyanApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
+                    b.Property<string>("Nickname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SynagogueId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("SynagogueId");
 
                     b.ToTable("Users");
                 });
@@ -155,15 +163,11 @@ namespace MinyanApp.Data.Migrations
                 {
                     b.HasOne("MinyanApp.Core.Entities.Location", "Loction")
                         .WithMany()
-                        .HasForeignKey("LoctionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LoctionId");
 
                     b.HasOne("MinyanApp.Core.Entities.Synagogue", "Synagogue")
                         .WithMany("Minyans")
-                        .HasForeignKey("SynagogueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SynagogueId");
 
                     b.Navigation("Loction");
 
@@ -183,18 +187,18 @@ namespace MinyanApp.Data.Migrations
 
             modelBuilder.Entity("MinyanApp.Core.Entities.User", b =>
                 {
-                    b.HasOne("MinyanApp.Core.Entities.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("MinyanApp.Core.Entities.Synagogue", "Synagogue")
+                        .WithMany("Users")
+                        .HasForeignKey("SynagogueId");
 
-                    b.Navigation("Location");
+                    b.Navigation("Synagogue");
                 });
 
             modelBuilder.Entity("MinyanApp.Core.Entities.Synagogue", b =>
                 {
                     b.Navigation("Minyans");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

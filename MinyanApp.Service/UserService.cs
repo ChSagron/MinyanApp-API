@@ -18,15 +18,37 @@ namespace MinyanApp.Service
             _userRepository = userRepository;
         }
 
-        public List<User> GetList()
+        public IEnumerable<User> GetList()
         {
             return _userRepository.GetAll();
         }
 
-        public User AddItem(User item)
+        public User AddItem(User user)
         {
-            return _userRepository.AddUser(item);
+            return _userRepository.AddItem(user);
         }
+
+        public User FindUser(string nickname, string password) 
+        {
+            User user = _userRepository.FindUser(nickname);
+            if(user != null && user.Password == password)
+            {
+                return user;
+            }
+            return null;
+
+            //if(user == null)
+            //{
+            //    return new User() { Id = 20 };
+
+            //}
+            //else if (user.Password == pass)
+            //{
+            //    return user;
+            //}
+            //return new User() { Id = 200 };
+        }
+
 
     }
 }

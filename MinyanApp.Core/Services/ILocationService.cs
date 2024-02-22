@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace MinyanApp.Core.Services
 {
-    public interface IMinyanService
+    public interface ILocationService
     {
-        IEnumerable<Minyan> GetList();
-
-        Minyan AddItem(Minyan minyan);
+        double CalculateDistance(Location point1, Location point2);
+        IEnumerable<Synagogue> GetTop10Synagogue(Location current /*, List<Synagogue> list*/);
 
     }
 }

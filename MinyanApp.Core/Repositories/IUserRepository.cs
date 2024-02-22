@@ -9,9 +9,11 @@ namespace MinyanApp.Core.Repositories
 {
     public interface IUserRepository
     {
-        List<User> GetAll();
+        IEnumerable<User> GetAll();
 
-        User AddUser(User user);
+        User AddItem(User user);
+
+        User FindUser(string nickname);
 
     }
 }

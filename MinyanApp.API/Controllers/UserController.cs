@@ -6,48 +6,60 @@ using MinyanApp.Core.Services;
 
 namespace MinyanApp.API.Controllers
 {
-    [Route("api/user")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class userController : ControllerBase
+    public class UserController : ControllerBase
     {
 
         private readonly IUserService _userService;
-        public userController(IUserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
 
-        // GET: api/<userController>
+        // GET: api/<UserController>
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IActionResult Get()
         {
-            return _userService.GetList();
+            return Ok(_userService.GetList());
         }
 
 
-        // POST api/<userController>
+        // todo! → jwt + login model
+        // GET api/<UserController>/nickname
+        [HttpGet("{nickname},{password}")]
+        public IActionResult Get(string nickname, string password)
+        {
+            User user = _userService.FindUser(nickname, password);
+            if (user == null)
+            {
+                return StatusCode(401);
+            }
+            return Ok(user);
+        }
+
+
+
+
+        // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] User user)
+        public IActionResult Post([FromBody] User user)
         {
             _userService.AddItem(user);
+            return Ok(_userService.GetList().Last());
         }
 
         /*
-        // GET api/<userController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+ 
 
      
-        // PUT api/<userController>/5
+        // PUT api/<UserController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<userController>/5
+        // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

@@ -14,20 +14,22 @@ namespace MinyanApp.Core.Entities
 
         public string LName { get; set; }
 
-        public string Phone { get; set; }
+        public string Nickname { get; set; }
+
+        public string? Phone { get; set; }
 
         public string Email { get; set; }
 
-        public string Avatar { get; set; }
+        public string? Avatar { get; set; }
 
         public string Password { get; set; }
 
-        public Location Location { get; set; }
+        public bool IsGabai { get; set; } = false;
 
-        public bool IsGabai { get; set; }
+        public Synagogue? Synagogue { get; set; }
 
-        public Synagogue Synagogue { get; set; }
 
+        //public Location Location { get; set; }
         //public List<Minyan> minyans { get; set; }
     }
 }

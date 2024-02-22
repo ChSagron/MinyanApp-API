@@ -9,8 +9,9 @@ namespace MinyanApp.Core.Services
 {
     public interface IUserService
     {
-        List<User> GetList();
+        IEnumerable<User> GetList();
 
         User AddItem(User item);
+        User FindUser(string nickname, string password);
     }
 }
